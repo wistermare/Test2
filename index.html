@@ -1,3 +1,135 @@
-<h1>山田太郎</h1>
-<p>UX/UIデザイナー見習いです</p>
-<img src="image92.jpg" width="140" height="140" alt="野菜のアイコン">
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>JavaScript Plactice</title>
+    <style>
+      body{
+        display:flex;
+        flex-wrap:wrap;
+      }
+      .box{
+        width: 100px;
+        height: 100px;
+        background: skyblue;
+        cursor: pointer;
+        transition: 0.8s;
+        margin: 0 5px 5px 0;
+        position: fixed;
+      }
+      .circle{
+        background: pink;
+        border-radius: 40%;
+        transform: rotate(360deg);
+        position: fixed;
+      }
+      .tri{
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-bottom: 100px solid red;
+        position: fixed;
+      }
+
+      </style>
+  </head>
+  <body>
+
+<script type="text/javascript">
+  'use strict';
+
+  //let array;
+  let click_counter = 0;
+  const test =　[];
+  const num = 10;
+  let temp = num; //
+  for(let i = 0; i<num;i++){
+    let a = i + 1;//Math.floor(Math.random() * 10 );
+    test.push(a);
+  }
+
+  //位置座標
+
+  //const lefts = ['100px', '300px','500px', '700px', '900px'];
+  const lefts = [];
+  for(let i = 0;i < num;i++)
+  {
+    let tmp = 60 + 110 * i;
+    String(tmp);
+    let str = tmp + 'px';
+    //str + 'px'；
+    lefts.push(str);
+  }
+
+  const tops = ['100px', '500px', '2000px'];
+
+
+  //相手のカード
+  const ids = [];//= ['c1','c2','c3','c4','c5'];
+  for(let i = 0;i<num;i++)
+  {
+    let tmp = i;
+    String(tmp);
+    let str = 'c' + tmp;
+    ids.push(str);
+  }
+  for(let i = 0; i < num; i++)
+  {
+    let div = document.createElement('div');
+    div.classList.add('tri');
+    div.textContent = i + 1;//test[i];
+    div.style.top = tops[0];
+    div.style.left = lefts[i];
+    div.setAttribute("id",ids[i]); //idを振って特定できるようにする
+    document.body.appendChild(div);
+  }
+
+  //自分のカード
+  for(let i = 0; i< num; i++){
+    const div = document.createElement('div');
+    div.classList.add('box');
+    let temp_num = i + 1;//Math.floor(Math.random() * 10 );
+    div.textContent = temp_num;
+    div.dataset.power = temp_num;
+    div.style.top = tops[1];
+    div.style.left = lefts[i];
+    div.style.id = ids[i];
+
+    //div.textContent = temp;
+
+    div.addEventListener('click',function(){
+
+      //ランダムで相手の手が決まる
+      let temp_num = Math.floor(Math.random() * (temp - 0.01));
+      //alert(temp_num);
+
+      //div.textContent = test[temp];
+      if(div.dataset.power > test[temp_num]){
+        //div.classList.toggle('circle');
+        div.classList.add('circle');
+        div.textContent = 'win';
+
+      }else if(div.dataset.power == test[temp_num]){
+        div.textContent = 'draw';
+      }
+      else{
+        div.textContent = 'lose';
+      }
+      //ここで対象のdivを削除する
+      let t_div = document.getElementById(ids[temp_num]);
+      t_div.style.display = "none";
+
+      //後処理
+      test.splice(temp_num, 1);
+      ids.splice(temp_num, 1);
+      temp = temp - 1;
+    });
+
+  document.body.appendChild(div);
+  }
+
+</script>
+
+  </body>
+</html>
